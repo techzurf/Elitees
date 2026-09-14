@@ -1,0 +1,8 @@
+{
+  "name": "TeeMart | Premium T-Shirts",
+  "description": "A premium T-shirt ecommerce brand offering oversized, classic, and graphic tees.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
