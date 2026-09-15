@@ -4,18 +4,18 @@ export const AboutUs: React.FC = () => {
   return (
     <div className="bg-gray-50 min-h-screen py-10">
       <div className="container mx-auto px-4 max-w-4xl">
-        <h1 className="text-3xl md:text-4xl font-bold text-blue-900 mb-6 text-center">About ShopMart</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-blue-900 mb-6 text-center">About Asin Lifestyle</h1>
         
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
           <img 
             src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=400&fit=crop" 
-            alt="About ShopMart" 
+            alt="About Asin Lifestyle" 
             className="w-full h-64 object-cover"
           />
           <div className="p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Story</h2>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              Founded in 2023, ShopMart started with a simple vision: to make quality groceries and daily essentials accessible to everyone. We believe that shopping for your home should be easy, reliable, and affordable.
+              Founded in 2023, Asin Lifestyle started with a simple vision: to make premium and comfortable T-shirts accessible to everyone. We believe that shopping for your everyday essentials should be easy, reliable, and affordable.
             </p>
             
             <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-8">Our Mission</h2>

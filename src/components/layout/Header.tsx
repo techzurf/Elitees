@@ -34,25 +34,25 @@ export const Header: React.FC = () => {
       {/* Main Header */}
       <div className="flex flex-col md:flex-row items-center justify-between px-4 md:px-6 py-3 md:py-4 gap-3 md:gap-0">
         
-        <div className="flex justify-between items-center w-full md:w-auto">
+        <div className="flex justify-between items-center w-full md:w-auto relative">
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden p-2 text-gray-700"
+            className="md:hidden p-2 -ml-2 text-gray-700"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <Menu size={24} />
           </button>
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="text-blue-900 font-bold text-2xl md:text-3xl tracking-tight flex items-center">
+          <Link to="/" className="flex items-center gap-1 md:gap-2 absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
+            <div className="text-blue-900 font-bold text-xl sm:text-2xl md:text-3xl tracking-tight flex items-center">
                <ShoppingBagLogo />
-               TeeMart
+               Asin Lifestyle
             </div>
           </Link>
 
           {/* Mobile Icons (Wishlist, Cart) */}
-          <div className="flex md:hidden items-center space-x-4 text-gray-700">
+          <div className="flex md:hidden items-center space-x-3 text-gray-700">
              <Link to="/account/wishlist" className="relative">
               <Heart size={24} />
               {wishlist.length > 0 && (
@@ -79,10 +79,10 @@ export const Header: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search for products, categories, brands..."
-              className="w-full border border-gray-300 rounded-l-md py-2 px-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              placeholder="Search products..."
+              className="flex-1 min-w-0 border border-gray-300 rounded-l-md py-2 px-3 md:px-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm md:text-base"
             />
-            <button type="submit" className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 px-6 py-2 rounded-r-md transition-colors flex items-center justify-center">
+            <button type="submit" className="shrink-0 bg-yellow-400 hover:bg-yellow-500 text-blue-900 px-4 md:px-6 py-2 rounded-r-md transition-colors flex items-center justify-center">
               <Search size={20} />
             </button>
           </form>

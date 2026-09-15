@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
             <Link to="/" className="flex items-center gap-2 mb-6">
               <div className="bg-white p-2 rounded flex items-center">
                  <ShoppingBagLogo />
-                 <span className="text-blue-900 font-bold text-2xl tracking-tight">TeeMart</span>
+                 <span className="text-blue-900 font-bold text-2xl tracking-tight">Asin Lifestyle</span>
               </div>
             </Link>
             <p className="text-blue-100 mb-6 max-w-sm">
@@ -67,7 +67,7 @@ export const Footer: React.FC = () => {
               </li>
               <li className="flex items-start gap-3">
                 <Mail size={20} className="mt-1 flex-shrink-0" />
-                <span>support@teemart.in</span>
+                <span>support@asinlifestyle.in</span>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin size={20} className="mt-1 flex-shrink-0" />
@@ -78,7 +78,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-blue-800 pt-6 flex flex-col md:flex-row justify-between items-center text-blue-200 text-sm gap-4">
-          <p>© {new Date().getFullYear()} TeeMart. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Asin Lifestyle. All rights reserved.</p>
           <div className="flex space-x-6">
             <Link to="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-white">Terms & Conditions</Link>

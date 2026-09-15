@@ -1,34 +1,49 @@
 import React from 'react';
 import { IndianRupee, ShoppingBag, Package, Users, TrendingUp } from 'lucide-react';
 import { orders, products, customers } from '../../data/mockData';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 
 export const Dashboard: React.FC = () => {
-  
   // Calculate mock stats
   const totalSales = orders.reduce((sum, order) => sum + order.amount, 0);
   const totalOrders = orders.length;
   const totalProducts = products.length;
   const totalCustomers = customers.length;
+  
+  const pendingOrders = orders.filter(o => o.status === 'Pending').length;
+  const completedOrders = orders.filter(o => o.status === 'Delivered').length;
 
   const statCards = [
     { title: 'Total Sales', value: `₹${totalSales.toLocaleString()}`, icon: IndianRupee, color: 'text-blue-600', bg: 'bg-blue-100', trend: '+12.5%' },
     { title: 'Total Orders', value: totalOrders, icon: ShoppingBag, color: 'text-emerald-600', bg: 'bg-emerald-100', trend: '+5.2%' },
     { title: 'Total Products', value: totalProducts, icon: Package, color: 'text-purple-600', bg: 'bg-purple-100', trend: '+0.0%' },
     { title: 'Total Customers', value: totalCustomers, icon: Users, color: 'text-amber-600', bg: 'bg-amber-100', trend: '+18.1%' },
+    { title: 'Pending Orders', value: pendingOrders, icon: ShoppingBag, color: 'text-orange-600', bg: 'bg-orange-100', trend: '-2.1%' },
+    { title: 'Completed Orders', value: completedOrders, icon: ShoppingBag, color: 'text-green-600', bg: 'bg-green-100', trend: '+8.4%' },
+  ];
+
+  const salesData = [
+    { name: 'Mon', sales: 4000 },
+    { name: 'Tue', sales: 3000 },
+    { name: 'Wed', sales: 2000 },
+    { name: 'Thu', sales: 2780 },
+    { name: 'Fri', sales: 1890 },
+    { name: 'Sat', sales: 2390 },
+    { name: 'Sun', sales: 3490 },
   ];
 
   return (
     <div className="space-y-6">
       
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {statCards.map((stat, index) => (
           <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex items-start justify-between">
             <div>
               <p className="text-sm font-medium text-gray-500 mb-1">{stat.title}</p>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">{stat.value}</h3>
-              <p className="text-xs font-medium flex items-center text-green-600">
-                <TrendingUp size={14} className="mr-1" /> {stat.trend} from last month
+              <p className={`text-xs font-medium flex items-center ${stat.trend.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                <TrendingUp size={14} className="mr-1" /> {stat.trend} from last week
               </p>
             </div>
             <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${stat.bg} ${stat.color}`}>
@@ -36,6 +51,39 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+          <h3 className="font-bold text-gray-900 text-lg mb-4">Sales Overview</h3>
+          <div className="h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={salesData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} tickFormatter={(val) => `₹${val}`} />
+                <RechartsTooltip cursor={{fill: '#F3F4F6'}} contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'}} />
+                <Bar dataKey="sales" fill="#1E3A8A" radius={[4, 4, 0, 0]} barSize={32} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+          <h3 className="font-bold text-gray-900 text-lg mb-4">Orders Overview</h3>
+          <div className="h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={salesData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} />
+                <RechartsTooltip contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'}} />
+                <Line type="monotone" dataKey="sales" stroke="#059669" strokeWidth={3} dot={{r: 4, fill: '#059669', strokeWidth: 2, stroke: '#fff'}} activeDot={{r: 6}} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -103,7 +151,6 @@ export const Dashboard: React.FC = () => {
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );

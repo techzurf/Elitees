@@ -16,33 +16,33 @@ export const Home: React.FC = () => {
       {/* 2. Service Features */}
       <section className="py-6 border-b border-gray-100 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            <div className="flex items-center gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start text-center sm:text-left gap-2 sm:gap-3">
               <Truck className="text-red-600 w-8 h-8 md:w-10 md:h-10 flex-shrink-0" />
               <div>
-                <h4 className="font-bold text-gray-900 text-sm md:text-base">Free Shipping</h4>
-                <p className="text-xs md:text-sm text-gray-500">On orders above ₹999</p>
+                <h4 className="font-bold text-gray-900 text-xs sm:text-sm md:text-base">Free Shipping</h4>
+                <p className="text-[10px] sm:text-xs md:text-sm text-gray-500 leading-tight mt-1">On orders above ₹999</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start text-center sm:text-left gap-2 sm:gap-3">
               <RotateCcw className="text-red-600 w-8 h-8 md:w-10 md:h-10 flex-shrink-0" />
               <div>
-                <h4 className="font-bold text-gray-900 text-sm md:text-base">Easy Returns</h4>
-                <p className="text-xs md:text-sm text-gray-500">Hassle free returns</p>
+                <h4 className="font-bold text-gray-900 text-xs sm:text-sm md:text-base">Easy Returns</h4>
+                <p className="text-[10px] sm:text-xs md:text-sm text-gray-500 leading-tight mt-1">Hassle free returns</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start text-center sm:text-left gap-2 sm:gap-3">
               <ShieldCheck className="text-red-600 w-8 h-8 md:w-10 md:h-10 flex-shrink-0" />
               <div>
-                <h4 className="font-bold text-gray-900 text-sm md:text-base">Secure Payment</h4>
-                <p className="text-xs md:text-sm text-gray-500">100% secure checkout</p>
+                <h4 className="font-bold text-gray-900 text-xs sm:text-sm md:text-base">Secure Payment</h4>
+                <p className="text-[10px] sm:text-xs md:text-sm text-gray-500 leading-tight mt-1">100% secure checkout</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-start text-center sm:text-left gap-2 sm:gap-3">
               <HeadphonesIcon className="text-red-600 w-8 h-8 md:w-10 md:h-10 flex-shrink-0" />
               <div>
-                <h4 className="font-bold text-gray-900 text-sm md:text-base">24/7 Support</h4>
-                <p className="text-xs md:text-sm text-gray-500">We're here to help</p>
+                <h4 className="font-bold text-gray-900 text-xs sm:text-sm md:text-base">24/7 Support</h4>
+                <p className="text-[10px] sm:text-xs md:text-sm text-gray-500 leading-tight mt-1">We're here to help</p>
               </div>
             </div>
           </div>
@@ -92,7 +92,7 @@ export const Home: React.FC = () => {
           <div className="flex justify-between items-end mb-6">
             <h2 className="text-xl md:text-2xl font-bold text-blue-900">Watch Our Latest Reels</h2>
             <a href="#" className="text-sm font-semibold text-blue-700 hover:text-blue-900">
-              Follow Us @shopmart
+              Follow Us @asinlifestyle
             </a>
           </div>
           

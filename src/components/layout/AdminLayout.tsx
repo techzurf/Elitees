@@ -1,5 +1,5 @@
-import React from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Outlet, Link, useLocation, Navigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Package, 
@@ -9,12 +9,22 @@ import {
   Image as ImageIcon, 
   Settings,
   LogOut,
-  Menu
+  Menu,
+  X,
+  Tag,
+  Star
 } from 'lucide-react';
+import { useAdminAuth } from '../../pages/admin/AdminAuthContext';
 
 export const AdminLayout: React.FC = () => {
   const location = useLocation();
   const path = location.pathname;
+  const { isAuthenticated, logout } = useAdminAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/admin/login" replace />;
+  }
 
   const isActive = (route: string) => path === route || path.startsWith(`${route}/`);
 
@@ -24,28 +34,50 @@ export const AdminLayout: React.FC = () => {
     { name: 'Categories', icon: Grid, route: '/admin/categories' },
     { name: 'Orders', icon: ShoppingCart, route: '/admin/orders' },
     { name: 'Customers', icon: Users, route: '/admin/customers' },
+    { name: 'Offers / Coupons', icon: Tag, route: '/admin/offers' },
     { name: 'Banners', icon: ImageIcon, route: '/admin/banners' },
+    { name: 'Reviews', icon: Star, route: '/admin/reviews' },
     { name: 'Settings', icon: Settings, route: '/admin/settings' },
   ];
 
   return (
-    <div className="flex h-screen bg-gray-100 font-sans">
+    <div className="flex h-screen bg-gray-100 font-sans overflow-hidden">
       
-      {/* Sidebar - Desktop */}
-      <aside className="w-64 bg-blue-900 text-white hidden md:flex flex-col shadow-xl z-20">
-        <div className="p-6 flex items-center border-b border-blue-800">
-          <div className="bg-white p-1.5 rounded mr-3">
-            <ShoppingBagLogo />
+      {/* Mobile Sidebar Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/50 z-40"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Sidebar - Desktop & Mobile */}
+      <aside className={`
+        fixed md:static inset-y-0 left-0 w-64 bg-blue-900 text-white flex flex-col shadow-xl z-50 transform transition-transform duration-300 ease-in-out
+        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+      `}>
+        <div className="p-6 flex items-center justify-between border-b border-blue-800">
+          <div className="flex items-center">
+            <div className="bg-white p-1.5 rounded mr-3">
+              <ShoppingBagLogo />
+            </div>
+            <span className="font-bold text-xl tracking-wide">Admin Panel</span>
           </div>
-          <span className="font-bold text-xl tracking-wide">Admin Panel</span>
+          <button 
+            className="md:hidden p-1 hover:bg-blue-800 rounded"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <X size={20} />
+          </button>
         </div>
         
-        <nav className="flex-1 overflow-y-auto py-4">
+        <nav className="flex-1 overflow-y-auto py-4 hide-scrollbar">
           <ul className="space-y-1 px-3">
             {navItems.map((item) => (
               <li key={item.name}>
                 <Link 
                   to={item.route}
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                     isActive(item.route) && (item.route !== '/admin' || path === '/admin') 
                       ? 'bg-blue-800 text-yellow-400 font-medium' 
@@ -61,33 +93,35 @@ export const AdminLayout: React.FC = () => {
         </nav>
         
         <div className="p-4 border-t border-blue-800">
-          <Link to="/" className="flex items-center gap-3 px-4 py-3 text-blue-200 hover:text-white hover:bg-blue-800/50 rounded-lg transition-colors">
+          <button 
+            onClick={logout}
+            className="w-full flex items-center gap-3 px-4 py-3 text-blue-200 hover:text-white hover:bg-blue-800/50 rounded-lg transition-colors"
+          >
             <LogOut size={20} />
-            <span>Exit Admin</span>
-          </Link>
+            <span>Logout</span>
+          </button>
         </div>
       </aside>
 
-      {/* Mobile Header & Sidebar (Simplified) */}
-      <div className="md:hidden fixed top-0 left-0 right-0 bg-blue-900 text-white p-4 flex items-center justify-between z-30 shadow-md">
-        <div className="flex items-center gap-3">
-          <Menu size={24} />
-          <span className="font-bold text-lg">Admin Panel</span>
-        </div>
-        <Link to="/" className="text-sm bg-blue-800 px-3 py-1.5 rounded">Store</Link>
-      </div>
-
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden w-full pt-16 md:pt-0">
+      <div className="flex-1 flex flex-col overflow-hidden w-full">
         
-        {/* Top Header - Desktop */}
-        <header className="hidden md:flex bg-white shadow-sm h-16 items-center justify-between px-8 z-10">
-          <h2 className="text-xl font-bold text-gray-800">
-            {navItems.find(item => isActive(item.route) && (item.route !== '/admin' || path === '/admin'))?.name || 'Dashboard'}
-          </h2>
+        {/* Top Header - Responsive */}
+        <header className="bg-white shadow-sm h-16 flex items-center justify-between px-4 md:px-8 z-10 shrink-0">
+          <div className="flex items-center gap-3">
+            <button 
+              className="md:hidden p-2 -ml-2 text-gray-700 hover:bg-gray-100 rounded-md"
+              onClick={() => setIsMobileMenuOpen(true)}
+            >
+              <Menu size={24} />
+            </button>
+            <h2 className="text-lg md:text-xl font-bold text-gray-800">
+              {navItems.find(item => isActive(item.route) && (item.route !== '/admin' || path === '/admin'))?.name || 'Dashboard'}
+            </h2>
+          </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm font-medium text-gray-600">Admin User</span>
-            <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-900 font-bold">A</div>
+            <span className="hidden sm:block text-sm font-medium text-gray-600">Admin User</span>
+            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-900 font-bold text-sm md:text-base">A</div>
           </div>
         </header>
 

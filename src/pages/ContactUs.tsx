@@ -30,7 +30,7 @@ export const ContactUs: React.FC = () => {
               <div>
                 <h3 className="font-bold text-gray-900 mb-1">Email Us</h3>
                 <p className="text-gray-600 text-sm">We'll respond within 24 hours.</p>
-                <p className="text-blue-900 font-medium mt-2">support@shopmart.com</p>
+                <p className="text-blue-900 font-medium mt-2">support@asinlifestyle.in</p>
               </div>
             </div>
             

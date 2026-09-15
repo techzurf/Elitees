@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { StoreProvider } from './context/StoreContext';
+import { AdminAuthProvider } from './pages/admin/AdminAuthContext';
 
 // Layouts
 import { MainLayout } from './components/layout/MainLayout';
@@ -19,14 +20,18 @@ import { ContactUs } from './pages/ContactUs';
 import { LegalPage } from './pages/LegalPage';
 
 // Admin Pages
+import { AdminLogin } from './pages/admin/AdminLogin';
 import { Dashboard as AdminDashboard } from './pages/admin/Dashboard';
-
-// Placeholder for remaining simple pages
-const Placeholder = ({ title }: { title: string }) => (
-  <div className="min-h-[50vh] flex items-center justify-center">
-    <h1 className="text-2xl font-bold text-blue-900">{title}</h1>
-  </div>
-);
+import { AdminProducts } from './pages/admin/Products';
+import { AdminOrders } from './pages/admin/Orders';
+import { 
+  AdminCategories, 
+  AdminCustomers, 
+  AdminOffers, 
+  AdminBanners, 
+  AdminReviews, 
+  AdminSettings 
+} from './pages/admin/AdminPlaceholders';
 
 const legalContent = {
   privacy: (
@@ -64,46 +69,53 @@ const legalContent = {
 export default function App() {
   return (
     <StoreProvider>
-      <BrowserRouter>
-        <Routes>
-        {/* Main Storefront Routes */}
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="products" element={<Products />} />
-          <Route path="product/:id" element={<ProductDetails />} />
-          <Route path="category/:categoryName" element={<Products />} />
-          <Route path="offers" element={<Products />} />
-          <Route path="cart" element={<Cart />} />
-          <Route path="checkout" element={<Checkout />} />
-          <Route path="login" element={<Auth />} />
-          <Route path="register" element={<Auth />} />
-          <Route path="account" element={<Account />}>
-             <Route path="orders" element={<Account />} />
-             <Route path="wishlist" element={<Account />} />
-          </Route>
-          <Route path="about" element={<AboutUs />} />
-          <Route path="contact" element={<ContactUs />} />
-          <Route path="faq" element={<LegalPage title="FAQ" content={legalContent.faq} />} />
-          <Route path="privacy-policy" element={<LegalPage title="Privacy Policy" content={legalContent.privacy} />} />
-          <Route path="terms" element={<LegalPage title="Terms & Conditions" content={legalContent.terms} />} />
-          <Route path="shipping" element={<LegalPage title="Shipping Policy" content={legalContent.shipping} />} />
-          <Route path="refund-policy" element={<LegalPage title="Refund Policy" content={legalContent.refund} />} />
-          <Route path="track-order" element={<Account />} /> {/* Placeholder to use Account page */}
-          <Route path="help" element={<ContactUs />} />
-        </Route>
+      <AdminAuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Main Storefront Routes */}
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<Home />} />
+              <Route path="products" element={<Products />} />
+              <Route path="product/:id" element={<ProductDetails />} />
+              <Route path="category/:categoryName" element={<Products />} />
+              <Route path="offers" element={<Products />} />
+              <Route path="cart" element={<Cart />} />
+              <Route path="checkout" element={<Checkout />} />
+              <Route path="login" element={<Auth />} />
+              <Route path="register" element={<Auth />} />
+              <Route path="account" element={<Account />}>
+                 <Route path="orders" element={<Account />} />
+                 <Route path="wishlist" element={<Account />} />
+              </Route>
+              <Route path="about" element={<AboutUs />} />
+              <Route path="contact" element={<ContactUs />} />
+              <Route path="faq" element={<LegalPage title="FAQ" content={legalContent.faq} />} />
+              <Route path="privacy-policy" element={<LegalPage title="Privacy Policy" content={legalContent.privacy} />} />
+              <Route path="terms" element={<LegalPage title="Terms & Conditions" content={legalContent.terms} />} />
+              <Route path="shipping" element={<LegalPage title="Shipping Policy" content={legalContent.shipping} />} />
+              <Route path="refund-policy" element={<LegalPage title="Refund Policy" content={legalContent.refund} />} />
+              <Route path="track-order" element={<Account />} /> {/* Placeholder to use Account page */}
+              <Route path="help" element={<ContactUs />} />
+            </Route>
 
-        {/* Admin Dashboard Routes */}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminDashboard />} />
-          <Route path="products" element={<Placeholder title="Admin Products" />} />
-          <Route path="categories" element={<Placeholder title="Admin Categories" />} />
-          <Route path="orders" element={<Placeholder title="Admin Orders" />} />
-          <Route path="customers" element={<Placeholder title="Admin Customers" />} />
-          <Route path="banners" element={<Placeholder title="Admin Banners" />} />
-          <Route path="settings" element={<Placeholder title="Admin Settings" />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            {/* Admin Login Route (Unprotected) */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+
+            {/* Admin Dashboard Routes (Protected via AdminLayout) */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="categories" element={<AdminCategories />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="customers" element={<AdminCustomers />} />
+              <Route path="offers" element={<AdminOffers />} />
+              <Route path="banners" element={<AdminBanners />} />
+              <Route path="reviews" element={<AdminReviews />} />
+              <Route path="settings" element={<AdminSettings />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AdminAuthProvider>
     </StoreProvider>
   );
 }

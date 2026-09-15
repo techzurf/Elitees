@@ -6,9 +6,9 @@ import { MobileBottomNav } from './MobileBottomNav';
 
 export const MainLayout: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-50 overflow-x-hidden pb-16 md:pb-0">
       <Header />
-      <main className="flex-grow pb-16 md:pb-0">
+      <main className="flex-grow w-full overflow-x-hidden">
         <Outlet />
       </main>
       <Footer />
