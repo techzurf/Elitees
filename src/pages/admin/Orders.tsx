@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { orders } from '../../data/mockData';
+import { useData } from '../../context/DataContext';
 import { Eye, Search, Filter } from 'lucide-react';
 
 export const AdminOrders: React.FC = () => {
+  const { orders, updateOrderStatus } = useData();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   
@@ -80,14 +81,23 @@ export const AdminOrders: React.FC = () => {
                   <td className="p-4 font-medium text-blue-900">{order.id}</td>
                   <td className="p-4">
                     <p className="font-medium text-gray-900">{order.customerName}</p>
-                    <p className="text-xs text-gray-500">{order.customerEmail}</p>
                   </td>
                   <td className="p-4 text-gray-600">{order.date}</td>
                   <td className="p-4 font-medium text-gray-900">₹{order.amount}</td>
                   <td className="p-4">
-                    <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
-                      {order.status}
-                    </span>
+                    <select 
+                      value={order.status} 
+                      onChange={(e) => updateOrderStatus(order.id, e.target.value as any)}
+                      className={`px-2.5 py-1 rounded-full text-xs font-medium border-0 cursor-pointer ${getStatusColor(order.status)}`}
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Confirmed">Confirmed</option>
+                      <option value="Processing">Processing</option>
+                      <option value="Shipped">Shipped</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Cancelled">Cancelled</option>
+                      <option value="Returned/Refunded">Returned</option>
+                    </select>
                   </td>
                   <td className="p-4 text-right">
                     <button className="p-1.5 text-blue-600 hover:bg-blue-50 rounded" title="View Details">

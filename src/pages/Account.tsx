@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { User, Package, MapPin, Heart, LogOut, ChevronRight } from 'lucide-react';
-import { orders } from '../data/mockData';
+import { useData } from '../context/DataContext';
 import { useStore } from '../context/StoreContext';
 import { ProductCard } from '../components/ui/ProductCard';
 
 export const Account: React.FC = () => {
+  const { orders } = useData();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('orders');
   

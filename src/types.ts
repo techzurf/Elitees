@@ -12,6 +12,8 @@ export interface Product {
   reviews: number;
   stock: number;
   badge?: string;
+  sizes?: string[];
+  colors?: string[];
 }
 
 export interface Category {

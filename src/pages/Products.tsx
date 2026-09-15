@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { Filter, ChevronDown, Grid3x3, List, Search } from 'lucide-react';
 import { ProductCard } from '../components/ui/ProductCard';
-import { products, categories } from '../data/mockData';
+import { useData } from '../context/DataContext';
 
 export const Products: React.FC = () => {
+  const { products, categories } = useData();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const { categoryName } = useParams<{ categoryName: string }>();
   const location = useLocation();

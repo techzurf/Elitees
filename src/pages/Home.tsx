@@ -4,10 +4,12 @@ import { HeroSlider } from '../components/ui/HeroSlider';
 import { CategoryCard } from '../components/ui/CategoryCard';
 import { ProductCard } from '../components/ui/ProductCard';
 import { ReelCard } from '../components/ui/ReelCard';
-import { categories, products, reels } from '../data/mockData';
+import { useData } from '../context/DataContext';
 import { Link } from 'react-router-dom';
 
 export const Home: React.FC = () => {
+  const { categories, products, reels } = useData();
+  
   return (
     <div className="bg-white">
       {/* 1. Hero Slider */}

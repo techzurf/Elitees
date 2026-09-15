@@ -63,11 +63,26 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Sizes and Colors */}
         <div className="mt-1 flex flex-col gap-1">
-          <span className="text-xs text-gray-500">Sizes: S, M, L, XL, XXL</span>
+          <span className="text-xs text-gray-500">Sizes: {(product.sizes || ['S', 'M', 'L', 'XL', 'XXL']).join(', ')}</span>
           <span className="text-xs text-gray-500 flex items-center gap-1">Colors: 
-            <span className="w-3 h-3 rounded-full bg-black border border-gray-300"></span>
-            <span className="w-3 h-3 rounded-full bg-white border border-gray-300"></span>
-            <span className="w-3 h-3 rounded-full bg-blue-900 border border-gray-300"></span>
+            {product.colors ? (
+               product.colors.map(color => {
+                 let bgColor = color.toLowerCase().replace(' ', '');
+                 if (bgColor === 'olivegreen') bgColor = '#556b2f';
+                 if (bgColor === 'heathergrey') bgColor = '#9e9e9e';
+                 if (bgColor === 'navyblue') bgColor = 'navy';
+                 
+                 return (
+                   <span key={color} className="w-3 h-3 rounded-full border border-gray-300" style={{ backgroundColor: bgColor }} title={color}></span>
+                 );
+               })
+            ) : (
+               <>
+                 <span className="w-3 h-3 rounded-full bg-black border border-gray-300"></span>
+                 <span className="w-3 h-3 rounded-full bg-white border border-gray-300"></span>
+                 <span className="w-3 h-3 rounded-full bg-blue-900 border border-gray-300"></span>
+               </>
+            )}
           </span>
         </div>
 

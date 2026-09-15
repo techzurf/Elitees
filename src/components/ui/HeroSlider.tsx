@@ -1,29 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
-const slides = [
-  {
-    id: 0,
-    type: 'full-banner',
-    image: "https://res.cloudinary.com/dv16a8l1l/image/upload/v1789369161/ChatGPT_Image_Sep_14_2026_12_28_36_PM_l9d1y7.png",
-    bgColor: "bg-[#111]"
-  },
-  {
-    id: 1,
-    type: 'full-banner',
-    image: "https://res.cloudinary.com/dv16a8l1l/image/upload/v1789369801/ChatGPT_Image_Sep_14_2026_12_39_51_PM_px9wfr.png",
-    bgColor: "bg-[#111]"
-  },
-  {
-    id: 2,
-    type: 'full-banner',
-    image: "https://res.cloudinary.com/dv16a8l1l/image/upload/v1789370277/ChatGPT_Image_Sep_14_2026_12_46_18_PM_unp41p.png",
-    bgColor: "bg-[#111]"
-  }
-];
+import { useData } from '../../context/DataContext';
 
 export const HeroSlider: React.FC = () => {
+  const { banners } = useData();
+  const slides = banners && banners.length > 0 ? banners.map((r, i) => ({
+    id: i,
+    type: 'full-banner',
+    image: r.thumbnail,
+    bgColor: "bg-[#111]",
+    title: r.title
+  })) : [
+    {
+      id: 0,
+      type: 'full-banner',
+      image: "https://res.cloudinary.com/dv16a8l1l/image/upload/v1789369161/ChatGPT_Image_Sep_14_2026_12_28_36_PM_l9d1y7.png",
+      bgColor: "bg-[#111]"
+    }
+  ];
+
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const nextSlide = () => {

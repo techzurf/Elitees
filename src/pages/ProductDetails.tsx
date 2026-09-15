@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Star, Minus, Plus, ShoppingCart, Heart, Share2, ShieldCheck, Truck, RotateCcw, Check, MessageCircle } from 'lucide-react';
-import { products } from '../data/mockData';
+import { useData } from '../context/DataContext';
 import { ProductCard } from '../components/ui/ProductCard';
 import { useStore } from '../context/StoreContext';
 import { storeConfig } from '../config/store';
 
 export const ProductDetails: React.FC = () => {
+  const { products } = useData();
   const { id } = useParams<{ id: string }>();
   // Use first product as fallback if ID not found for preview purposes
   const product = products.find(p => p.id === id) || products[0];
@@ -150,7 +151,7 @@ export const ProductDetails: React.FC = () => {
                 <div className="mb-4">
                   <p className="text-sm font-medium text-gray-700 mb-2">Size</p>
                   <div className="flex gap-2">
-                    {['S', 'M', 'L', 'XL', 'XXL'].map(size => (
+                    {(product.sizes || ['S', 'M', 'L', 'XL', 'XXL']).map(size => (
                       <button key={size} className="w-10 h-10 border border-gray-300 rounded-md flex items-center justify-center text-sm font-medium hover:border-blue-900 hover:text-blue-900 transition-colors focus:ring-1 focus:ring-blue-900">
                         {size}
                       </button>
@@ -158,11 +159,26 @@ export const ProductDetails: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-700 mb-2">Color</p>
+                  <p className="text-sm font-medium text-gray-700 mb-2">Color: <span className="font-bold text-gray-900">{product.colors?.[0] || 'Select'}</span></p>
                   <div className="flex gap-3">
-                    <button className="w-8 h-8 rounded-full bg-black border border-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-black"></button>
-                    <button className="w-8 h-8 rounded-full bg-white border border-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"></button>
-                    <button className="w-8 h-8 rounded-full bg-blue-900 border border-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-blue-900"></button>
+                    {product.colors ? (
+                      product.colors.map(color => {
+                        let bgColor = color.toLowerCase().replace(' ', '');
+                        if (bgColor === 'olivegreen') bgColor = '#556b2f';
+                        if (bgColor === 'heathergrey') bgColor = '#9e9e9e';
+                        if (bgColor === 'navyblue') bgColor = 'navy';
+                        
+                        return (
+                          <button key={color} className={`w-8 h-8 rounded-full border border-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-blue-900`} style={{ backgroundColor: bgColor }} title={color}></button>
+                        );
+                      })
+                    ) : (
+                      <>
+                        <button className="w-8 h-8 rounded-full bg-black border border-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-black"></button>
+                        <button className="w-8 h-8 rounded-full bg-white border border-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"></button>
+                        <button className="w-8 h-8 rounded-full bg-blue-900 border border-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-blue-900"></button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

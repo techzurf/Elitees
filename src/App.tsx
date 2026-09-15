@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { StoreProvider } from './context/StoreContext';
+import { DataProvider } from './context/DataContext';
 import { AdminAuthProvider } from './pages/admin/AdminAuthContext';
 
 // Layouts
@@ -68,9 +69,10 @@ const legalContent = {
 
 export default function App() {
   return (
-    <StoreProvider>
-      <AdminAuthProvider>
-        <BrowserRouter>
+    <DataProvider>
+      <StoreProvider>
+        <AdminAuthProvider>
+          <BrowserRouter>
           <Routes>
             {/* Main Storefront Routes */}
             <Route path="/" element={<MainLayout />}>
@@ -117,6 +119,7 @@ export default function App() {
         </BrowserRouter>
       </AdminAuthProvider>
     </StoreProvider>
+    </DataProvider>
   );
 }
 

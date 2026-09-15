@@ -1,10 +1,12 @@
 import React from 'react';
 import { IndianRupee, ShoppingBag, Package, Users, TrendingUp } from 'lucide-react';
-import { orders, products, customers } from '../../data/mockData';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { useData } from '../../context/DataContext';
 
 export const Dashboard: React.FC = () => {
-  // Calculate mock stats
+  const { orders, products, customers } = useData();
+
+  // Calculate stats based on actual data
   const totalSales = orders.reduce((sum, order) => sum + order.amount, 0);
   const totalOrders = orders.length;
   const totalProducts = products.length;
