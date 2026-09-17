@@ -47,7 +47,35 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const saved = localStorage.getItem('asin_lifestyle_db');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        
+        // Remove any products that don't use cloudinary images (cleaning up old placeholder data)
+        if (parsed.products && Array.isArray(parsed.products)) {
+          parsed.products = parsed.products.filter((p: Product) => p.image && p.image.includes('res.cloudinary.com'));
+        }
+
+        // Clean up unsplash images in categories cache
+        if (parsed.categories && Array.isArray(parsed.categories)) {
+          parsed.categories = parsed.categories.map((c: Category) => {
+            if (c.image && c.image.includes('unsplash.com')) {
+              const freshCategory = mockData.categories.find(mc => mc.id === c.id);
+              return freshCategory ? { ...c, image: freshCategory.image } : c;
+            }
+            return c;
+          });
+        }
+
+        // Ensure any newly added mock products (e.g. from code updates) are merged in
+        if (parsed.products && Array.isArray(parsed.products)) {
+          const missingProducts = mockData.products.filter(mp => !parsed.products.find((p: Product) => p.id === mp.id));
+          if (missingProducts.length > 0) {
+            parsed.products = [...parsed.products, ...missingProducts];
+          }
+        } else {
+          parsed.products = mockData.products;
+        }
+
+        return parsed;
       } catch (e) {
         console.error('Failed to parse DB', e);
       }
